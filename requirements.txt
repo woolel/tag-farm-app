@@ -1,4 +1,6 @@
 streamlit
-duckdb
+duckdb>=1.0.0
 sentence-transformers
-torch
+# [중요] 용량 초과 방지를 위한 CPU 전용 파이토치
+torch --index-url https://download.pytorch.org/whl/cpu
+numpy<2.0.0
