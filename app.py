@@ -65,7 +65,7 @@ if query:
         # 2. SQL로 유사도 검색 (상위 5개)
         # BGE-M3 모델은 1024차원이므로 FLOAT[1024]로 형변환
         sql = """
-            SELECT year, month, title, content_md, array_cosine_similarity(embedding, ?::FLOAT[1024]) as score
+            SELECT year, month, title, content_md, array_cosine_similarity(embedding, ?::FLOAT[768]) as score
             FROM farm_info
             ORDER BY score DESC
             LIMIT 5
