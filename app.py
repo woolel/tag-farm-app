@@ -16,24 +16,30 @@ def load_model():
     return model
 
 # [2. DB 연결]
+# [2. DB 연결 부분 수정]
 @st.cache_resource
 def get_db_connection():
-    # [수정됨] 변경하신 파일명 반영
+    # 파일명이 맞는지 꼭 확인하세요
     db_path = "farming_granular.duckdb"
     
     try:
-        # read_only=True로 설정해야 파일 잠금(Lock) 오류가 없습니다.
-        con = duckdb.connect(db_path, read_only=True)
+        # [핵심 수정] config 파라미터를 통해 연결과 동시에 설정을 적용합니다.
+        # 이렇게 하면 "database is running" 에러가 발생하지 않습니다.
+        con = duckdb.connect(
+            db_path, 
+            read_only=True, 
+            config={'allow_unsigned_extensions': 'true'}
+        )
         
-        # VSS(벡터 검색) 확장 설치 및 로드
-        # 리눅스 환경(Streamlit Cloud) 호환성을 위해 unsigned 허용 시도
-        con.execute("SET allow_unsigned_extensions = true;") 
+        # VSS 확장 설치 및 로드
+        # (이미 unsigned 설정을 켰으므로 에러 없이 진행됩니다)
         con.execute("INSTALL vss; LOAD vss;")
         return con
+        
     except Exception as e:
-        st.error(f"❌ 데이터베이스 연결 또는 VSS 확장 로드 실패: {e}")
+        st.error(f"❌ 데이터베이스 연결 실패: {e}")
         return None
-
+        
 # [UI 구성]
 st.title("🌾 주간농사정보 AI 검색 서비스")
 st.caption("2023~2025년 농사 정보 (질문 예: 고추 탄저병 방제 시기는?, 벼 이앙 적기)")
