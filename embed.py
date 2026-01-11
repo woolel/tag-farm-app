@@ -7,13 +7,13 @@ from tqdm import tqdm
 from typing import Dict, List, Any, Tuple
 
 # [설정 수정됨]
-MODEL_NAME = 'BAAI/bge-m3'
+MODEL_NAME = 'jhgan/ko-sroberta-multitask'
 DB_PATH = "farming_granular.duckdb"
 
 # 8GB 램 생존 설정
-BATCH_SIZE = 1           # [중요] 한 번에 하나씩 처리 (RAM 폭증 방지)
+BATCH_SIZE = 32           # [중요] 한 번에 하나씩 처리 (RAM 폭증 방지)
 DB_INSERT_BATCH = 50     # DB 저장은 50개씩 모아서
-MAX_TEXT_LENGTH = 1536   # [타협] 2048 -> 1536 (약 25% 부하 감소, 여전히 충분히 김)
+MAX_TEXT_LENGTH = 512   # [타협] 2048 -> 1536 (약 25% 부하 감소, 여전히 충분히 김)
 
 # [태그 사전]
 TAG_SETS = {

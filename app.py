@@ -10,13 +10,9 @@ st.set_page_config(page_title="주간농사정보 AI 검색", layout="wide")
 # @st.cache_resource는 모델을 한 번만 불러오고 메모리에 저장해둡니다.
 @st.cache_resource
 def load_model():
-    # CPU 모드로 로드
-    model = SentenceTransformer('BAAI/bge-m3', device='cpu')
-    
-    # 동적 양자화 적용 (속도 2배 향상, 메모리 절약)
-    model = torch.quantization.quantize_dynamic(
-        model, {torch.nn.Linear}, dtype=torch.qint8
-    )
+    # [수정] 가벼운 모델로 변경
+    model_name = 'jhgan/ko-sroberta-multitask'
+    model = SentenceTransformer(model_name, device='cpu')
     return model
 
 # [2. DB 연결]
