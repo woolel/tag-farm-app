@@ -21,7 +21,7 @@ def load_model():
 @st.cache_resource
 def get_db_connection():
     # read_only=True로 설정하여 파일 손상 방지
-    con = duckdb.connect("farm_data_2026.duckdb", read_only=True)
+    con = duckdb.connect("farming_granular.duckdb", read_only=True)
     # Streamlit Cloud(Linux)에 맞는 VSS 확장 자동 설치
     con.execute("INSTALL vss; LOAD vss;")
     return con
